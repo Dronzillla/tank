@@ -40,14 +40,26 @@ class TankGame:
                     print(" . ", end="")
             print()
 
+    # Implement moving of a tank
     def left(self):
-        # TODO: Implement this
-        pass
+        if not self.tank_loc_x == 0:
+            self.tank_loc_x -= 1
 
+    def right(self):
+        if not self.tank_loc_x == self.N - 1:
+            self.tank_loc_x += 1
 
     def forward(self):
-        # TODO: Implement this
-        pass
+        if not self.tank_loc_y == self.N-1:
+            self.tank_loc_y += 1
+        
+    def backward(self):
+        if not self.tank_loc_y == 0:
+            self.tank_loc_y -= 1
+    
+
+    # TODO: Implement this
+        
 
     # TODO: add more methods here
 
@@ -60,4 +72,10 @@ if __name__ == "__main__":
         tg.print_map()
 
         command = input("Input a command: ")
+        
+        str_command = "tg." + command + "()"
+
+        exec(str_command)
+        
+        continue
         # TODO: Implement handling of commands here
