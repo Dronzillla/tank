@@ -12,8 +12,13 @@ class TankGame:
         # Setting starting tank direction
         self.tank_direction = {"north": False, "south": True, "east": False, "west": False}
 
-        
-        
+        # Set shots in direction to 0
+        # Set maximum shots in one direction to equal to {N - 2}
+        self.S = self.N - 2
+        self.tank_shots = {"north": 0, "south": 0, "east": 0, "west": 0}
+        self.tank_max_shots = {"north": self.S, "south": self.S, "east": self.S, "west": self.S}
+        # Set total shots made
+        self.S_count = 0
         
 
     def print_map(self):
@@ -52,6 +57,17 @@ class TankGame:
     def __no_direction(self):
         self.tank_direction.update( (k,False) for k in self.tank_direction )
 
+    # Private method to check which direction a tank is facing
+    def __check_direction(self):
+        for key, value in self.tank_direction.items():
+            if value == True:
+                return key
+    
+    # Check how much shots were made in each direction
+    def __check_shot_count(self):
+        for key, value in self.tank_shots.items():
+            print(f"In '{key}' direction tank made '{value}' shots.")
+
     # Implement moving of a tank
     def left(self):
         if not self.tank_loc_x == 0:
@@ -77,14 +93,20 @@ class TankGame:
             self.__no_direction()
             self.tank_direction["south"] = True
 
+    def info(self):
+        
+        # Check which direction the tank is facing
+
+        print(f"The tank is facing {self.__check_direction()}.")
+        print(f"The cordinates of tank for x is: '{self.tank_loc_x}' and for y is: '{self.tank_loc_y}'.")
+        print(f"The tank made '{self.S_count}' shots.")
+        self.__check_shot_count()
+
     # Instructions
     @staticmethod
     def instructions():
         print("Tank moves by commands: 'left', 'right', forward', 'backword'")
 
-        
-
-    # TODO: add more methods here
 
 
 if __name__ == "__main__":
@@ -102,7 +124,8 @@ if __name__ == "__main__":
 
         exec(str_command)
         
-        print(tg.tank_direction)
+        # For debug
+        # print(tg.tank_direction)
 
         continue
         # TODO: Implement handling of commands here
