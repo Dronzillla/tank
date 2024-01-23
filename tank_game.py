@@ -1,3 +1,5 @@
+import random
+
 class TankGame:
     def __init__(self, N: int = 7):
         """Create a tank game object.
@@ -15,10 +17,16 @@ class TankGame:
         # Set shots in direction to 0
         # Set maximum shots in one direction to equal to {N - 2}
         self.S = self.N - 2
+        
         self.tank_shots = {"north": 0, "south": 0, "east": 0, "west": 0}
+        
+        
         self.tank_max_shots = {"north": self.S, "south": self.S, "east": self.S, "west": self.S}
         # Set total shots made
-        self.S_count = 0
+        self.S_made = 0
+
+        # Generate target 
+        self.target_loc_x, self.target_loc_y = self.__get_target_coordinates()
         
 
     def print_map(self):
@@ -48,9 +56,30 @@ class TankGame:
             for j in range(self.N):
                 if self.tank_loc_x == j and self.tank_loc_y == i:
                     print(" T ", end="")
+                # Modify loop to input target
+                elif self.target_loc_x == j and self.target_loc_y == i:
+                    print(" X ", end="")
                 else:
                     print(" . ", end="")
             print()
+
+
+    '''
+    Improve the program so that:
+    - A target is generated in the tank game grid. 
+    - The task of the tank is to be in the right position and in the right direction so that a hit is recorded after firing. 
+    - When a tank hits, we see the message "hit" on the console and a new target is generated immediately. 
+    '''
+    def __get_target_coordinates(self) -> tuple:
+        while True:
+            # Get random cooridante for x
+            xnum = random.randint(0, self.N - 1)
+            # Get random coordinate for y
+            ynum = random.randint(0, self.N - 1)
+
+            if xnum == self.tank_loc_x and ynum == self.tank_loc_y:
+                continue
+            return xnum, ynum
 
 
     # Private method to set no direction
@@ -94,20 +123,42 @@ class TankGame:
             self.tank_direction["south"] = True
 
     def info(self):
-        
-        # Check which direction the tank is facing
-
-        print(f"The tank is facing {self.__check_direction()}.")
+        print(f"The tank is facing '{self.__check_direction()}'.")
         print(f"The cordinates of tank for x is: '{self.tank_loc_x}' and for y is: '{self.tank_loc_y}'.")
-        print(f"The tank made '{self.S_count}' shots.")
+        print(f"The tank made '{self.S_made}' shots.")
         self.__check_shot_count()
+
+    
+    def shoot(self):
+        if self.tank_loc_x == self.target_loc_x:
+            if self.target_loc_y > self.tank_loc_y and self.tank_direction["south"] == True:
+                print("Hit")
+                self.target_loc_x, self.target_loc_y = self.__get_target_coordinates()
+            elif self.target_loc_y < self.tank_loc_y and self.tank_direction["north"] == True:
+                print("Hit")
+                self.target_loc_x, self.target_loc_y = self.__get_target_coordinates()
+            else:
+                print("No hit")
+        elif self.tank_loc_y == self.target_loc_y:
+            
+            if self.target_loc_x > self.tank_loc_x and self.tank_direction["west"] == True:
+                print("Hit")
+                self.target_loc_x, self.target_loc_y = self.__get_target_coordinates()
+
+            elif self.target_loc_x < self.tank_loc_x and self.tank_direction["east"] == True:
+                print("Hit")
+                self.target_loc_x, self.target_loc_y = self.__get_target_coordinates()
+            else:
+                print("No hit")
+        else:
+            print("Not hit")
 
     # Instructions
     @staticmethod
     def instructions():
-        print("Tank moves by commands: 'left', 'right', forward', 'backword'")
-
-
+        print("Type 'instructions' to get all possible commands.")
+        print("Tank moves by commands: 'left', 'right', forward', 'backword'.")
+        print("Tank shoot by command 'shoot'.")
 
 if __name__ == "__main__":
     # Initialize your game object
@@ -122,7 +173,10 @@ if __name__ == "__main__":
         
         str_command = "tg." + command + "()"
 
-        exec(str_command)
+        try:
+            exec(str_command)
+        except AttributeError:
+            print("Error. Type 'instructions' to get possible commands")
         
         # For debug
         # print(tg.tank_direction)
