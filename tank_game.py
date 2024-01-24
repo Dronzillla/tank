@@ -1,4 +1,7 @@
 import random
+import csv
+import datetime
+import os
 
 # Class to pretty format strings
 class Fmt:
@@ -251,10 +254,13 @@ if __name__ == "__main__":
         Fmt.bc_print("", anum)
 
         try:
-            user = input("Input a command: ")
-            if user == "start":
+            p_command = input("Input a command: ")
+            if p_command == "start":
                 Fmt.bc_print("Starting a new game", anum)
-
+                # Get user name
+                # Get game day
+                user = input("Enter your name: ")
+                date = datetime.date.today()
                 # Another loop for a new game
                 while True:
                     # Break from program when all shots are made
@@ -265,6 +271,32 @@ if __name__ == "__main__":
                         Fmt.bc_print(f"Your score is {tg.score}", tg.N)
                         Fmt.bc_print("", tg.N)
                         print("")
+
+                        # Record user result to a csv file
+                        fields = ["name", "score", "date"]
+                        result = {}
+                        result["name"] = user
+                        result["date"] = date
+                        result["score"] = tg.score
+
+                        # Check if file leaderboard file already exists
+                        filename = "leaderboard.csv"
+                        if os.path.exists(filename):
+                            f_exists = True
+                        else:
+                            f_exists = False
+
+                        # Append the results to a file
+                        with open(filename, "a") as csvfile:
+                            
+                            writer = csv.DictWriter(csvfile, fieldnames=fields)
+                            # Check if file exists. If so, only append results
+                            if f_exists:
+                                writer.writerow(result)
+                            # If file is created first time
+                            else:
+                                writer.writeheader()
+                                writer.writerow(result)
                         break
 
                     # Print the score and map
@@ -284,11 +316,11 @@ if __name__ == "__main__":
                     except Exception:
                         print("Error. Type 'instructions' to get possible commands")
 
-            elif user == "instructions":
+            elif p_command  == "instructions":
                 Fmt.bc_print("Getting instructions", anum)
                 tg.instructions()
                 continue
-            elif user == "exit":
+            elif p_command == "exit":
                 Fmt.bc_print("Exiting the program", anum)
                 break
             else:
