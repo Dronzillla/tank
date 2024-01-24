@@ -98,6 +98,11 @@ class TankGame:
         print(score.rjust(self.N * 3 + 1, "."))
         print("")
 
+    # Check if tank and target location is the same
+    def __same_loc(self) -> bool:
+        if self.tank_loc_x == self.target_loc_x and self.tank_loc_y == self.target_loc_y:
+            return True
+
     # Implement moving of a tank
     def left(self):
         if not self.tank_loc_x == 0:
@@ -106,6 +111,10 @@ class TankGame:
             self.tank_direction["east"] = True
             # Update points
             self.__score_move()
+            # Check if tank and target is in the same location
+            if self.__same_loc():
+                self.target_loc_x, self.target_loc_y = self.__get_target_coordinates()
+                self.__score_drive()
 
     def right(self):
         if not self.tank_loc_x == self.N - 1:
@@ -114,6 +123,10 @@ class TankGame:
             self.tank_direction["west"] = True
             # Update points
             self.__score_move()
+            # Check if tank and target is in the same location
+            if self.__same_loc():
+                self.target_loc_x, self.target_loc_y = self.__get_target_coordinates()
+                self.__score_drive()
 
     def up(self):
         if not self.tank_loc_y == 0:
@@ -122,6 +135,10 @@ class TankGame:
             self.tank_direction["north"] = True
             # Update points
             self.__score_move()
+            # Check if tank and target is in the same location
+            if self.__same_loc():
+                self.target_loc_x, self.target_loc_y = self.__get_target_coordinates()
+                self.__score_drive()
 
     def down(self):
         if not self.tank_loc_y == self.N - 1:
@@ -130,6 +147,10 @@ class TankGame:
             self.tank_direction["south"] = True
             # Update points
             self.__score_move()
+            # Check if tank and target is in the same location
+            if self.__same_loc():
+                self.target_loc_x, self.target_loc_y = self.__get_target_coordinates()
+                self.__score_drive()
     
     # A method to get generate random coordinates of a target in the grid
     def __get_target_coordinates(self) -> tuple:
@@ -200,6 +221,9 @@ class TankGame:
             print("Not hit")
             self.__score_S_nohit()
 
+    def __score_drive(self):
+        self.score -= 75
+    
     def __score_S_hit(self):
         self.score += 50
 
@@ -226,9 +250,10 @@ class TankGame:
         print("In the map you are marked as: '⬇️'. Your targets are marked as: '☢'.")
         print("The goal of the game is to shoot targets and get highest possible score.")
         print(f"In total you have {self.S_max} shots.")
-        print("If you shoot a target you get 50 points.")
-        print("If you shoot and miss you loose 25 points.")
-        print("Every move you make you loose 5 points.")
+        print("If you shoot a target you gain 50 points.")
+        print("If you shoot and miss you gain -25 points.")
+        print("Every move you make you gain -5 points.")
+        print("If you drive on target you gain -75 points")
         print("Tank moves by commands: 'left', 'right', up', 'down'.")
         print("Tank shoots by command 'shoot'.")
         print("Target is hit only if you are facing direction where is the target.")
@@ -249,9 +274,17 @@ if __name__ == "__main__":
         Fmt.bc_print("WELCOME! THIS IS A TANK GAME!", anum)
         Fmt.bc_print("'start' TO START A NEW GAME.", anum)
         Fmt.bc_print("'instructions' TO GET USER INSTRUCTIONS.", anum)
+        #Fmt.bc_print("'leaderboard' TO GET LEADERBOARD", anum)
         Fmt.bc_print("'exit' TO EXIT FROM PROGRAM.", anum)
         Fmt.bc_print("", anum)
         Fmt.bc_print("", anum)
+
+        filename = "leaderboard.csv"
+        # Check if file leaderboard file already exists
+        if os.path.exists(filename):
+            f_exists = True
+        else:
+            f_exists = False
 
         try:
             p_command = input("Input a command: ")
@@ -279,16 +312,8 @@ if __name__ == "__main__":
                         result["date"] = date
                         result["score"] = tg.score
 
-                        # Check if file leaderboard file already exists
-                        filename = "leaderboard.csv"
-                        if os.path.exists(filename):
-                            f_exists = True
-                        else:
-                            f_exists = False
-
                         # Append the results to a file
                         with open(filename, "a") as csvfile:
-                            
                             writer = csv.DictWriter(csvfile, fieldnames=fields)
                             # Check if file exists. If so, only append results
                             if f_exists:
@@ -323,6 +348,8 @@ if __name__ == "__main__":
             elif p_command == "exit":
                 Fmt.bc_print("Exiting the program", anum)
                 break
+            # elif p_command == "leaderboard":
+            # To be implemented
             else:
                 Fmt.bc_print("Invalid command", anum)
                 continue

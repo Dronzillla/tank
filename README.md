@@ -11,11 +11,14 @@ Specification for a game:
 
 Libraries needed to run this program are as follows: 
 * random
+* csv
+* datetime
+* os
 
 ## Bugs
 
 Known bugs that need to be fixed:
-* Tank can overlap a target.
+* -
 
 ## Executing program
 
