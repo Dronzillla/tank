@@ -34,6 +34,8 @@ class TankGame:
         # Generate target 
         self.target_loc_x, self.target_loc_y = self.__get_target_coordinates()
         
+        # Create logo of a tank which points to certain direction
+        self.tank_direction_logo = {"north": "⬆️", "south": "⬇️", "east": "⬅️", "west": "➡️"}
 
     def print_map(self):
         """Print the current map of the game.
@@ -61,7 +63,7 @@ class TankGame:
             print(f"{i} ", end="")
             for j in range(self.N):
                 if self.tank_loc_x == j and self.tank_loc_y == i:
-                    print(" T ", end="")
+                    print(f" {self.tank_direction_logo[self.__check_direction()]} ", end="")
                 # Modify loop to input target
                 elif self.target_loc_x == j and self.target_loc_y == i:
                     print(" ☢ ", end="")
