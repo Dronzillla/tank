@@ -1,5 +1,20 @@
 import random
 
+# Class to pretty format strings
+class Fmt:
+    @staticmethod
+    def bc_print(astr: str, anumb: int):
+        print(astr.center(anumb * 3 + 1, "."))
+    
+    @staticmethod
+    def br_print(astr: str, anumb: int):
+        print(astr.rjust(anumb * 3 + 1, "."))
+
+    @staticmethod
+    def bl_print(astr: str, anumb: int):
+        print(astr.ljust(anumb * 3 + 1, "."))
+
+
 class TankGame:
     def __init__(self, N: int = 7):
         """Create a tank game object.
@@ -219,34 +234,67 @@ class TankGame:
         print("Type 'exit' to exit from game.")
 
 if __name__ == "__main__":
-    # Initialize your game object
-    tg = TankGame()
-    # Start game loop
-    tg.instructions()
-
+    # Start a program loop
     while True:
+        # Initialize your game object
+        tg = TankGame()
         
-        # Break from program when all shots were made
-        if tg.tank_S_made == tg.S_max:
-            print("gg".center(tg.N * 3 + 1, "."))
-            print("Game is over!".center(tg.N * 3 + 1, "."))
-            print(f"Your score is {tg.score}".center(tg.N * 3 + 1, "."))
-            print("gg".center(tg.N * 3 + 1, "."))
-            break
+        # Print menu
+        anum = tg.N * 4
+        Fmt.bc_print("", anum)
+        Fmt.bc_print("", anum)
+        Fmt.bc_print("WELCOME! THIS IS A TANK GAME!", anum)
+        Fmt.bc_print("'start' TO START A NEW GAME.", anum)
+        Fmt.bc_print("'instructions' TO GET USER INSTRUCTIONS.", anum)
+        Fmt.bc_print("'exit' TO EXIT FROM PROGRAM.", anum)
+        Fmt.bc_print("", anum)
+        Fmt.bc_print("", anum)
 
-        # Print the score and map
-        # Get user command
-        tg.print_score()
-        tg.print_map()
-        command = input("Input a command: ")
-        
-        # Exit game if command is exit
-        if command == "exit":
-            break
-        
-        # Try executing the command
-        str_command = "tg." + command + "()"
         try:
-            exec(str_command)
-        except Exception:
-            print("Error. Type 'instructions' to get possible commands")
+            user = input("Input a command: ")
+            if user == "start":
+                Fmt.bc_print("Starting a new game", anum)
+
+                # Another loop for a new game
+                while True:
+                    # Break from program when all shots are made
+                    if tg.tank_S_made == tg.S_max:
+                        print("")
+                        Fmt.bc_print("", tg.N)
+                        Fmt.bc_print("Game is over!", tg.N)
+                        Fmt.bc_print(f"Your score is {tg.score}", tg.N)
+                        Fmt.bc_print("", tg.N)
+                        print("")
+                        break
+
+                    # Print the score and map
+                    # Get user command
+                    tg.print_score()
+                    tg.print_map()
+                    command = input("Input a command: ")
+                    
+                    # Exit game if command is exit
+                    if command == "exit":
+                        break
+                    
+                    # Try executing the command
+                    str_command = "tg." + command + "()"
+                    try:
+                        exec(str_command)
+                    except Exception:
+                        print("Error. Type 'instructions' to get possible commands")
+
+            elif user == "instructions":
+                Fmt.bc_print("Getting instructions", anum)
+                tg.instructions()
+                continue
+            elif user == "exit":
+                Fmt.bc_print("Exiting the program", anum)
+                break
+            else:
+                Fmt.bc_print("Invalid command", anum)
+                continue
+        except:
+            Fmt.bc_print("Invalid command!", anum)
+            continue
+    
