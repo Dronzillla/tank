@@ -141,7 +141,7 @@ class TankGame:
         self.tank_direction.update( (k,False) for k in self.tank_direction )
 
     # Private method to check which direction a tank is facing
-    def __check_direction(self):
+    def __check_direction(self) -> str:
         for key, value in self.tank_direction.items():
             if value == True:
                 return key
@@ -205,7 +205,7 @@ class TankGame:
         
     # Instructions
     def instructions(self):
-        print("In the map you are marked as: 'T'. Your targets are marked as: '☢'.")
+        print("In the map you are marked as: '⬇️'. Your targets are marked as: '☢'.")
         print("The goal of the game is to shoot targets and get highest possible score.")
         print(f"In total you have {self.S_max} shots.")
         print("If you shoot a target you get 50 points.")
@@ -228,7 +228,6 @@ if __name__ == "__main__":
         
         # Break from program when all shots were made
         if tg.tank_S_made == tg.S_max:
-            
             print("gg".center(tg.N * 3 + 1, "."))
             print("Game is over!".center(tg.N * 3 + 1, "."))
             print(f"Your score is {tg.score}".center(tg.N * 3 + 1, "."))
