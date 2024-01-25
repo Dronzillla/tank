@@ -25,7 +25,7 @@ class Person:
         return maximum
 
     @classmethod
-    def get_max_person(cls):
+    def get_max_person(cls) -> list:
         for person in Person.all:
             if person.score == cls.get_maximum():
                 # return person information as a list

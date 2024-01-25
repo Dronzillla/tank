@@ -2,7 +2,9 @@
 
 ## Description
 
-This is my implementation of a simple tank game. This is stable project version v1. Keep in mind that this program generates new csv.file where leaderboard results are stored.
+This is my implementation of a simple tank game. This is stable project version v2. 
+
+Keep in mind that this program generates new csv.file where leaderboard results are stored.
 
 Specification for a game:
 * [awesome-readme](https://github.com/Dronzillla/tank/blob/main/tank-game-description.md)
