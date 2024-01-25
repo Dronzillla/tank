@@ -3,6 +3,35 @@ import csv
 import datetime
 import os
 
+
+# Create a class object for a person
+class Person:
+    # A list of all persons
+    all = []
+    def __init__(self, name, score, date):
+        self.name = name
+        self.score = score
+        self.date = date
+        # Add object to a list
+        Person.all.append(self)
+
+    def __repr__(self):
+        return(f"Person('{self.name}', '{self.score}', '{self.date}')")
+
+    @classmethod
+    def get_maximum(cls) -> int:
+        # Get maximum value and return it
+        maximum = max(person.score for person in Person.all)
+        return maximum
+
+    @classmethod
+    def get_max_person(cls):
+        for person in Person.all:
+            if person.score == cls.get_maximum():
+                # return person information as a list
+                return [person.name, person.score, person.date]
+
+
 # Class to pretty format strings
 class Fmt:
     @staticmethod
@@ -33,7 +62,7 @@ class TankGame:
         self.tank_direction = {"north": False, "south": True, "east": False, "west": False}
 
         # Set maximum total shots available in one game to equal to (N - 2) * 4
-        self.S_max = (self.N - 4 )
+        self.S_max = (self.N - 4 ) * 3
         
         # Set total shots made in each direction
         # Set total shots made
@@ -267,6 +296,26 @@ if __name__ == "__main__":
         # Initialize your game object
         tg = TankGame()
         
+        filename = "leaderboard.csv"
+        # Check if file leaderboard file already exists
+        if os.path.exists(filename):
+            f_exists = True
+        else:
+            f_exists = False
+
+        # Open a leaderboard file and create Person object
+        # Get leader who scored the most points
+        # If more than 1 person scored maximum points the one who scored earliest is selected.
+        try:
+            with open(filename, "r") as csvleaderboard:
+                reader = csv.DictReader(csvleaderboard)
+                for line in reader:
+                    person = Person(line["name"], int(line["score"]), line["date"])
+            # Get a person with first maximum result
+            leader = (Person.get_max_person())
+        except:
+            leader = ["no data", "no data", "no data"]
+
         # Print menu
         anum = tg.N * 4
         Fmt.bc_print("", anum)
@@ -274,17 +323,12 @@ if __name__ == "__main__":
         Fmt.bc_print("WELCOME! THIS IS A TANK GAME!", anum)
         Fmt.bc_print("'start' TO START A NEW GAME.", anum)
         Fmt.bc_print("'instructions' TO GET USER INSTRUCTIONS.", anum)
-        #Fmt.bc_print("'leaderboard' TO GET LEADERBOARD", anum)
         Fmt.bc_print("'exit' TO EXIT FROM PROGRAM.", anum)
         Fmt.bc_print("", anum)
         Fmt.bc_print("", anum)
-
-        filename = "leaderboard.csv"
-        # Check if file leaderboard file already exists
-        if os.path.exists(filename):
-            f_exists = True
-        else:
-            f_exists = False
+        Fmt.bc_print(f"Current leader is '{leader[0]}'. He scored '{leader[1]}' in '{leader[2]}'!", anum)
+        Fmt.bc_print("", anum)
+        Fmt.bc_print("", anum)
 
         try:
             p_command = input("Input a command: ")
@@ -356,4 +400,3 @@ if __name__ == "__main__":
         except:
             Fmt.bc_print("Invalid command!", anum)
             continue
-    
