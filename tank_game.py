@@ -8,6 +8,7 @@ import os
 class Person:
     # A list of all persons
     all = []
+
     def __init__(self, name, score, date):
         self.name = name
         self.score = score
@@ -16,7 +17,7 @@ class Person:
         Person.all.append(self)
 
     def __repr__(self):
-        return(f"Person('{self.name}', '{self.score}', '{self.date}')")
+        return f"Person('{self.name}', '{self.score}', '{self.date}')"
 
     @classmethod
     def get_maximum(cls) -> int:
@@ -37,7 +38,7 @@ class Fmt:
     @staticmethod
     def bc_print(astr: str, anumb: int):
         print(astr.center(anumb * 3 + 1, "."))
-    
+
     @staticmethod
     def br_print(astr: str, anumb: int):
         print(astr.rjust(anumb * 3 + 1, "."))
@@ -57,13 +58,18 @@ class TankGame:
         # Hard-coded starting tank location is 2, 1
         self.tank_loc_x = 2
         self.tank_loc_y = 1
-        
+
         # Setting starting tank direction
-        self.tank_direction = {"north": False, "south": True, "east": False, "west": False}
+        self.tank_direction = {
+            "north": False,
+            "south": True,
+            "east": False,
+            "west": False,
+        }
 
         # Set maximum total shots available in one game to equal to (N - 2) * 4
-        self.S_max = (self.N - 4 ) * 3
-        
+        self.S_max = (self.N - 4) * 3
+
         # Set total shots made in each direction
         # Set total shots made
         # Set total shots left
@@ -78,11 +84,16 @@ class TankGame:
         self.tank_S_hit_dir = {"north": 0, "south": 0, "east": 0, "west": 0}
         self.tank_S_hit = 0
 
-        # Generate target 
+        # Generate target
         self.target_loc_x, self.target_loc_y = self.__get_target_coordinates()
-        
+
         # Create logo of a tank which points to certain direction
-        self.tank_direction_logo = {"north": "⬆️", "south": "⬇️", "east": "⬅️", "west": "➡️"}
+        self.tank_direction_logo = {
+            "north": "⬆️",
+            "south": "⬇️",
+            "east": "⬅️",
+            "west": "➡️",
+        }
 
     def print_map(self):
         """Print the current map of the game.
@@ -110,7 +121,10 @@ class TankGame:
             print(f"{i} ", end="")
             for j in range(self.N):
                 if self.tank_loc_x == j and self.tank_loc_y == i:
-                    print(f" {self.tank_direction_logo[self.__check_direction()]} ", end="")
+                    print(
+                        f" {self.tank_direction_logo[self.__check_direction()]} ",
+                        end="",
+                    )
                 # Modify loop to input target
                 elif self.target_loc_x == j and self.target_loc_y == i:
                     print(" ☢ ", end="")
@@ -129,7 +143,10 @@ class TankGame:
 
     # Check if tank and target location is the same
     def __same_loc(self) -> bool:
-        if self.tank_loc_x == self.target_loc_x and self.tank_loc_y == self.target_loc_y:
+        if (
+            self.tank_loc_x == self.target_loc_x
+            and self.tank_loc_y == self.target_loc_y
+        ):
             return True
 
     # Implement moving of a tank
@@ -180,7 +197,7 @@ class TankGame:
             if self.__same_loc():
                 self.target_loc_x, self.target_loc_y = self.__get_target_coordinates()
                 self.__score_drive()
-    
+
     # A method to get generate random coordinates of a target in the grid
     def __get_target_coordinates(self) -> tuple:
         while True:
@@ -200,20 +217,22 @@ class TankGame:
         # Generate new target
         self.target_loc_x, self.target_loc_y = self.__get_target_coordinates()
         # Update shots hit
-        self.tank_S_hit_dir[self.__check_direction()] = self.tank_S_hit_dir.get(self.__check_direction(), 0) + 1
+        self.tank_S_hit_dir[self.__check_direction()] = (
+            self.tank_S_hit_dir.get(self.__check_direction(), 0) + 1
+        )
         # Update total shots hit
         self.tank_S_hit = sum(list(self.tank_S_hit_dir.values()))
 
     # Private method to set no direction
     def __no_direction(self):
-        self.tank_direction.update( (k,False) for k in self.tank_direction )
+        self.tank_direction.update((k, False) for k in self.tank_direction)
 
     # Private method to check which direction a tank is facing
     def __check_direction(self) -> str:
         for key, value in self.tank_direction.items():
             if value == True:
                 return key
-    
+
     # Check how much shots were made in each direction
     def __check_shot_count(self):
         for key, value in self.tank_S_made_dir.items():
@@ -221,7 +240,9 @@ class TankGame:
 
     def shoot(self):
         # Update shot made of a current direction
-        self.tank_S_made_dir[self.__check_direction()] = self.tank_S_made_dir.get(self.__check_direction(), 0) + 1
+        self.tank_S_made_dir[self.__check_direction()] = (
+            self.tank_S_made_dir.get(self.__check_direction(), 0) + 1
+        )
         # Update total shots made
         self.tank_S_made = sum(list(self.tank_S_made_dir.values()))
         # Update shots left
@@ -229,19 +250,31 @@ class TankGame:
 
         # Check target location and if tank hit target
         if self.tank_loc_x == self.target_loc_x:
-            if self.target_loc_y > self.tank_loc_y and self.tank_direction["south"] == True:
+            if (
+                self.target_loc_y > self.tank_loc_y
+                and self.tank_direction["south"] == True
+            ):
                 self.__target_hit()
-            elif self.target_loc_y < self.tank_loc_y and self.tank_direction["north"] == True:
+            elif (
+                self.target_loc_y < self.tank_loc_y
+                and self.tank_direction["north"] == True
+            ):
                 self.__target_hit()
             else:
                 print("No hit")
                 self.__score_S_nohit()
         elif self.tank_loc_y == self.target_loc_y:
-            
-            if self.target_loc_x > self.tank_loc_x and self.tank_direction["west"] == True:
+
+            if (
+                self.target_loc_x > self.tank_loc_x
+                and self.tank_direction["west"] == True
+            ):
                 self.__target_hit()
 
-            elif self.target_loc_x < self.tank_loc_x and self.tank_direction["east"] == True:
+            elif (
+                self.target_loc_x < self.tank_loc_x
+                and self.tank_direction["east"] == True
+            ):
                 self.__target_hit()
             else:
                 print("No hit")
@@ -252,7 +285,7 @@ class TankGame:
 
     def __score_drive(self):
         self.score -= 75
-    
+
     def __score_S_hit(self):
         self.score += 50
 
@@ -264,7 +297,9 @@ class TankGame:
 
     def info(self):
         print(f"Tank is facing '{self.__check_direction()}'.")
-        print(f"The coordinates of tank for x is: '{self.tank_loc_x}' and for y is: '{self.tank_loc_y}'.")
+        print(
+            f"The coordinates of tank for x is: '{self.tank_loc_x}' and for y is: '{self.tank_loc_y}'."
+        )
         print(f"Tank made '{self.tank_S_made}' shots.")
         print(f"Shots left '{self.tank_S_left}'.")
         print(f"Tank shot '{self.tank_S_hit}' targets.")
@@ -273,11 +308,13 @@ class TankGame:
 
     def exit(self):
         print("'exit' command was typed.")
-        
+
     # Instructions
     def instructions(self):
         print("In the map you are marked as: '⬇️'. Your targets are marked as: '☢'.")
-        print("The goal of the game is to shoot targets and get highest possible score.")
+        print(
+            "The goal of the game is to shoot targets and get highest possible score."
+        )
         print(f"In total you have {self.S_max} shots.")
         print("If you shoot a target you gain 50 points.")
         print("If you shoot and miss you gain -25 points.")
@@ -286,16 +323,19 @@ class TankGame:
         print("Tank moves by commands: 'left', 'right', up', 'down'.")
         print("Tank shoots by command 'shoot'.")
         print("Target is hit only if you are facing direction where is the target.")
-        print("Type 'info' to get information about your current direction and state of a game.")
+        print(
+            "Type 'info' to get information about your current direction and state of a game."
+        )
         print("Type 'instructions' to get all possible commands.")
         print("Type 'exit' to exit from game.")
+
 
 if __name__ == "__main__":
     # Start a program loop
     while True:
         # Initialize your game object
         tg = TankGame()
-        
+
         filename = "leaderboard.csv"
         # Check if file leaderboard file already exists
         if os.path.exists(filename):
@@ -312,7 +352,7 @@ if __name__ == "__main__":
                 for line in reader:
                     person = Person(line["name"], int(line["score"]), line["date"])
             # Get a person with first maximum result
-            leader = (Person.get_max_person())
+            leader = Person.get_max_person()
         except:
             leader = ["no data", "no data", "no data"]
 
@@ -326,7 +366,10 @@ if __name__ == "__main__":
         Fmt.bc_print("'exit' TO EXIT FROM PROGRAM.", anum)
         Fmt.bc_print("", anum)
         Fmt.bc_print("", anum)
-        Fmt.bc_print(f"Current leader is '{leader[0]}'. He scored '{leader[1]}' in '{leader[2]}'!", anum)
+        Fmt.bc_print(
+            f"Current leader is '{leader[0]}'. He scored '{leader[1]}' in '{leader[2]}'!",
+            anum,
+        )
         Fmt.bc_print("", anum)
         Fmt.bc_print("", anum)
 
@@ -373,11 +416,11 @@ if __name__ == "__main__":
                     tg.print_score()
                     tg.print_map()
                     command = input("Input a command: ")
-                    
+
                     # Exit game if command is exit
                     if command == "exit":
                         break
-                    
+
                     # Try executing the command
                     str_command = "tg." + command + "()"
                     try:
@@ -385,7 +428,7 @@ if __name__ == "__main__":
                     except Exception:
                         print("Error. Type 'instructions' to get possible commands")
 
-            elif p_command  == "instructions":
+            elif p_command == "instructions":
                 Fmt.bc_print("Getting instructions", anum)
                 tg.instructions()
                 continue
