@@ -2,14 +2,17 @@
 
 ## Description
 
-This is my implementation of a program - simple tank game. Keep in mind that this program generates new .csv file where leaderboard results are stored. 
-
+This is my implementation of a program - simple tank game.  
 Specification for a program based on which this program was created:
-* [awesome-readme](https://github.com/Dronzillla/tank/blob/main/tank-game-description.md)
+* [tank-game-description](https://github.com/Dronzillla/tank/blob/main/tank-game-description.md)  
+Keep in mind that this program generates new .csv file where leaderboard results are stored. 
 
 ## Dependencies
 
-Libraries needed to run this program are as follows: 
+Third-party libraries needed to run this program are as follows: 
+* None
+
+Built-in libraries needed to run this program are as follows:
 * random
 * csv
 * datetime
@@ -17,7 +20,8 @@ Libraries needed to run this program are as follows:
 
 ## Executing program
 
-* Run python file 'main.py' in python interpreter.
+Run python file 'main.py' in python interpreter.  
+Commands are entered in console.
 
 ## Authors
 
