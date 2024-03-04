@@ -2,9 +2,9 @@
 
 ## Description
 
-This is my implementation of a program - simple tank game.  
-Specification for a program based on which this program was created:
-* [tank-game-description](https://github.com/Dronzillla/tank/blob/main/tank-game-description.md)  
+This is my implementation of a program - simple tank game. Specification for a program based on which this program was created:
+* [tank-game-description](https://github.com/Dronzillla/tank/blob/main/tank-game-description.md)
+
 Keep in mind that this program generates new .csv file where leaderboard results are stored. 
 
 ## Dependencies
