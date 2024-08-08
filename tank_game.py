@@ -23,7 +23,7 @@ class TankGame:
         }
 
         # Set maximum total shots available in one game
-        self.S_max = (self.N - 4) * 1
+        self.S_max = self.N
 
         # Set total shots made in each direction
         # Set total shots made
@@ -88,13 +88,13 @@ class TankGame:
             print()
 
     # A function to print a score
-    def print_score(self):
+    def print_score_and_shots_left(self):
         print("")
-        txt = "SCORE:"
-        score = f"{self.score}"
-        print(txt.rjust(self.N * 3 + 1, "."))
-        print(score.rjust(self.N * 3 + 1, "."))
-        print("")
+        Format.print_right(
+            words=f"SHOTS LEFT: {self.tank_S_left}", chars=self.N * 3 + 1
+        )
+        Format.print_right(words=f"SCORE: {self.score}", chars=self.N * 3 + 1)
+        # print("")
 
     # Check if tank and target location is the same
     def __same_loc(self) -> bool:
@@ -287,7 +287,7 @@ class TankGame:
     def start_game(self) -> Optional[int]:
         # A loop for one game
         while True:
-            # Break from program when all shots are made
+            # Break from game when all shots are made
             if self.tank_S_made == self.S_max:
                 print("")
                 Format.print_center("", self.N)
@@ -298,10 +298,11 @@ class TankGame:
                 return self.score
 
             # Main game logic
-            # Print the score and map
-            # Get user command
-            self.print_score()
+            # Print score, shots left
+            self.print_score_and_shots_left()
+            # Print map
             self.print_map()
+            # Get user command
             command = input("Input a command: ")
 
             # Exit game if command is exit
@@ -314,10 +315,3 @@ class TankGame:
                 exec(str_command)
             except Exception:
                 print("Error. Type 'instructions' to get possible commands")
-
-
-def main(): ...
-
-
-if __name__ == "__main__":
-    main()
