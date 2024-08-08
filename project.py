@@ -6,52 +6,65 @@ from person import Person
 from tank import TankGame
 
 
-def main():
-    while True:
-        # Initialize your game object
-        tg = TankGame()
+def load_leaderboard(filename: str) -> list:
+    # Open a leaderboard file and create Person object
+    # Get leader who scored the most points
+    # If more than 1 person scored maximum points the one who scored earliest is selected.
+    try:
+        with open(filename, "r") as csvleaderboard:
+            reader = csv.DictReader(csvleaderboard)
+            for line in reader:
+                person = Person(line["name"], int(line["score"]), line["date"])
+        # Get a person with first maximum result
+        leader = Person.get_max_person()
+    except:
+        leader = ["no data", "no data", "no data"]
+    return leader
 
-        # Check if file leaderboard file already exists
+
+def print_program_menu(anum: int, leader: list) -> None:
+    # Print program menu
+    Format.bc_print("", anum)
+    Format.bc_print("", anum)
+    Format.bc_print("WELCOME! THIS IS A TANK GAME!", anum)
+    Format.bc_print("'start' TO START A NEW GAME.", anum)
+    Format.bc_print("'instructions' TO GET USER INSTRUCTIONS.", anum)
+    Format.bc_print("'exit' TO EXIT FROM PROGRAM.", anum)
+    Format.bc_print("", anum)
+    Format.bc_print("", anum)
+    Format.bc_print(
+        f"Current leader is '{leader[0]}'. He scored '{leader[1]}' in '{leader[2]}'!",
+        anum,
+    )
+    Format.bc_print("", anum)
+    Format.bc_print("", anum)
+
+
+def main():
+    # Create main program loop
+    while True:
+        # File to store leaderboard
         filename = "leaderboard.csv"
+
+        # Check if file leaderboard already exists
         if os.path.exists(filename):
             f_exists = True
         else:
             f_exists = False
 
-        # Open a leaderboard file and create Person object
-        # Get leader who scored the most points
-        # If more than 1 person scored maximum points the one who scored earliest is selected.
-        try:
-            with open(filename, "r") as csvleaderboard:
-                reader = csv.DictReader(csvleaderboard)
-                for line in reader:
-                    person = Person(line["name"], int(line["score"]), line["date"])
-            # Get a person with first maximum result
-            leader = Person.get_max_person()
-        except:
-            leader = ["no data", "no data", "no data"]
+        # Initialize game object
+        tg = TankGame()
 
-        # Get the value to pretty print menu using Format class
+        # Get the value to pretty print menu using format class
         anum = tg.N * 4
-        # Print program menu
-        Format.bc_print("", anum)
-        Format.bc_print("", anum)
-        Format.bc_print("WELCOME! THIS IS A TANK GAME!", anum)
-        Format.bc_print("'start' TO START A NEW GAME.", anum)
-        Format.bc_print("'instructions' TO GET USER INSTRUCTIONS.", anum)
-        Format.bc_print("'exit' TO EXIT FROM PROGRAM.", anum)
-        Format.bc_print("", anum)
-        Format.bc_print("", anum)
-        Format.bc_print(
-            f"Current leader is '{leader[0]}'. He scored '{leader[1]}' in '{leader[2]}'!",
-            anum,
-        )
-        Format.bc_print("", anum)
-        Format.bc_print("", anum)
 
+        # Print program menu
+        print_program_menu(anum=anum, leader=load_leaderboard(filename=filename))
+
+        # Handle program command
         try:
-            p_command = input("Input a command: ")
-            if p_command == "start":
+            program_command = input("Input a command: ")
+            if program_command == "start":
                 Format.bc_print("Starting a new game", anum)
                 # Get user name
                 # Get game day
@@ -104,14 +117,14 @@ def main():
                     except Exception:
                         print("Error. Type 'instructions' to get possible commands")
 
-            elif p_command == "instructions":
+            elif program_command == "instructions":
                 Format.bc_print("Getting instructions", anum)
                 tg.instructions()
                 continue
-            elif p_command == "exit":
+            elif program_command == "exit":
                 Format.bc_print("Exiting the program", anum)
                 break
-            # elif p_command == "leaderboard":
+            # elif program_command == "leaderboard":
             # To be implemented
             else:
                 Format.bc_print("Invalid command", anum)
