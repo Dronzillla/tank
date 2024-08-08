@@ -2,8 +2,6 @@
 
 Your task is to develop in python a simple [command-line interface](https://en.wikipedia.org/wiki/Command-line_interface) tank game. You will implement this exercise in stages, each stage is a bit more difficult and builds upon the previous stage.
 
-Start with the given file `tank_game.py` because it has some starting code to make it easier for you.
-
 ## Stage 1
 
 All tank and information management must be done on the console (actual graphical interface is not required). This will require you to create a menu and accept user instructions. Actions to be performed (methods called) until the user stops the program (for example, by selecting an actual menu item). You can use this management to test your TankGame class during your coding process.
@@ -26,8 +24,6 @@ The `info()` method must display:
 - What are its coordinates.
 - How many total shots did it make.
 - How many shots were fired in each direction separately.
-
-![picture](https://github.com/robotautas/kursas/raw/master/tanko%20iliustracija.png)
 
 Text translation: this is only an illustration of the idea of the game, you don't need this kind of graphical interface, we work in the console only.
 

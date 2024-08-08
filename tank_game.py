@@ -22,8 +22,8 @@ class TankGame:
             "west": False,
         }
 
-        # Set maximum total shots available in one game to equal to (N - 2) * 4
-        self.S_max = (self.N - 4) * 3
+        # Set maximum total shots available in one game
+        self.S_max = (self.N - 4) * 1
 
         # Set total shots made in each direction
         # Set total shots made
@@ -290,10 +290,10 @@ class TankGame:
             # Break from program when all shots are made
             if self.tank_S_made == self.S_max:
                 print("")
-                Format.bc_print("", self.N)
-                Format.bc_print("Game is over!", self.N)
-                Format.bc_print(f"Your score is {self.score}", self.N)
-                Format.bc_print("", self.N)
+                Format.print_center("", self.N)
+                Format.print_center("Game is over!", self.N)
+                Format.print_center(f"Your score is {self.score}", self.N)
+                Format.print_center("", self.N)
                 print("")
                 return self.score
 
