@@ -44,4 +44,7 @@ Improve the program so that:
 
 ## Stage 4
 
-Come up with some improvements of your own! This is necessary to score the top grade.
+- Record results of games played in a csv file.
+- Implement leaderboard functionality.
+- Implement testing.
+- Write docstrings for at least main functions used in a code.
