@@ -28,10 +28,3 @@ class Person:
             if person.score == cls.get_maximum():
                 # return person information as a list
                 return [person.name, person.score, person.date]
-
-
-def main(): ...
-
-
-if __name__ == "__main__":
-    main()

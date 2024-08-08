@@ -1,7 +1,7 @@
 import csv
 import datetime
 import os
-from format import Format
+from utils import Format
 from person import Person
 from tank_game import TankGame
 
