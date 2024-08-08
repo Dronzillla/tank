@@ -2,8 +2,7 @@
 
 ## Description
 
-This is my implementation of a simple command-line interface tank game. This game was developed and tested using **Python 3.12.3**. This program was created based on this specification:
-* [tank-game-description](https://github.com/Dronzillla/tank/blob/main/tank-game-description.md)
+This is my implementation of a simple command-line interface tank game. It was developed and tested using **Python 3.12.3**. The sspecification for this program is provided in a file '[tank-game-description]'(https://github.com/Dronzillla/tank/blob/main/tank-game-description.md).
 
 ## Dependencies
 
@@ -17,7 +16,7 @@ This program is designed to run using only the standard Python library, meaning 
     cd tank/
     ```
 
-2. **Run the application**:
+2. **Run the program**:
     ```sh
     python3 project.py
     ```
