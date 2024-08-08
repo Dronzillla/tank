@@ -18,12 +18,12 @@ class Person:
 
     @classmethod
     def get_maximum(cls) -> int:
-        # Get maximum value and return it
+        # Get maximum score value and return it
         maximum = max(person.score for person in Person.all)
         return maximum
 
     @classmethod
-    def get_max_person(cls) -> list:
+    def get_max_score_person_info(cls) -> list:
         for person in Person.all:
             if person.score == cls.get_maximum():
                 # return person information as a list

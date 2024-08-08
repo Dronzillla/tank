@@ -30,14 +30,14 @@ def main():
         # start
         if program_command == "start":
             Format.print_center("Starting a new game", program_menu_width)
-
             # Get user name
             user = input("Enter your name: ")
-
             # Start game
             score = tg.start_game()
-
-            record_result_to_leaderboard(filename=filename, user=user, score=score)
+            # Only record the result if game was not exited without recording score
+            # print(score)
+            if score is not None:
+                record_result_to_leaderboard(filename=filename, user=user, score=score)
 
         # instructions
         elif program_command == "instructions":
@@ -84,7 +84,7 @@ def get_leader_from_leaderboard(filename: str) -> list:
             for line in reader:
                 person = Person(line["name"], int(line["score"]), line["date"])
         # Get a person with first maximum result
-        leader = Person.get_max_person()
+        leader = Person.get_max_score_person_info()
     except:
         leader = ["no data", "no data", "no data"]
     return leader

@@ -2,7 +2,7 @@
 
 ## Description
 
-This is my implementation of a simple command-line interface tank game. It was developed and tested using **Python 3.12.3**. The sspecification for this program is provided in a file '[tank-game-description]'(https://github.com/Dronzillla/tank/blob/main/tank-game-description.md).
+This is my implementation of a simple command-line interface tank game. It was developed and tested using **Python 3.12.3**. The sspecification for this program is provided in a file '[tank-game-description](https://github.com/Dronzillla/tank/blob/main/tank-game-description.md)'.
 
 ## Dependencies
 
