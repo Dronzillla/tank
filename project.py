@@ -3,7 +3,7 @@ import datetime
 import os
 from format import Format
 from person import Person
-from tank import TankGame
+from tank_game import TankGame
 
 
 def load_leaderboard(filename: str) -> list:
@@ -26,10 +26,10 @@ def print_program_menu(anum: int, leader: list) -> None:
     # Print program menu
     Format.bc_print("", anum)
     Format.bc_print("", anum)
-    Format.bc_print("WELCOME! THIS IS A TANK GAME!", anum)
-    Format.bc_print("'start' TO START A NEW GAME.", anum)
-    Format.bc_print("'instructions' TO GET USER INSTRUCTIONS.", anum)
-    Format.bc_print("'exit' TO EXIT FROM PROGRAM.", anum)
+    Format.bc_print("Welcome! This is a tank game.", anum)
+    Format.bc_print("'start' To start a new game.", anum)
+    Format.bc_print("'instructions' To see game instructions.", anum)
+    Format.bc_print("'exit' To exit from program.", anum)
     Format.bc_print("", anum)
     Format.bc_print("", anum)
     Format.bc_print(
@@ -38,6 +38,28 @@ def print_program_menu(anum: int, leader: list) -> None:
     )
     Format.bc_print("", anum)
     Format.bc_print("", anum)
+
+
+def record_result_to_leaderboard(
+    user: str, date: datetime, filename: str, f_exists: bool, score: int
+):
+    # Record user result to a csv file
+    fields = ["name", "score", "date"]
+    result = {}
+    result["name"] = user
+    result["date"] = date
+    result["score"] = score
+
+    # Append the results to a file
+    with open(filename, "a") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fields)
+        # Check if file exists. If so, only append results
+        if f_exists:
+            writer.writerow(result)
+        # If file is created first time
+        else:
+            writer.writeheader()
+            writer.writerow(result)
 
 
 def main():
@@ -62,75 +84,35 @@ def main():
         print_program_menu(anum=anum, leader=load_leaderboard(filename=filename))
 
         # Handle program command
-        try:
-            program_command = input("Input a command: ")
-            if program_command == "start":
-                Format.bc_print("Starting a new game", anum)
-                # Get user name
-                # Get game day
-                user = input("Enter your name: ")
-                date = datetime.date.today()
-                # Another loop for a new game
-                while True:
-                    # Break from program when all shots are made
-                    if tg.tank_S_made == tg.S_max:
-                        print("")
-                        Format.bc_print("", tg.N)
-                        Format.bc_print("Game is over!", tg.N)
-                        Format.bc_print(f"Your score is {tg.score}", tg.N)
-                        Format.bc_print("", tg.N)
-                        print("")
+        program_command = input("Input a command: ")
+        if program_command == "start":
+            Format.bc_print("Starting a new game", anum)
 
-                        # Record user result to a csv file
-                        fields = ["name", "score", "date"]
-                        result = {}
-                        result["name"] = user
-                        result["date"] = date
-                        result["score"] = tg.score
+            # Get user name
+            user = input("Enter your name: ")
+            # Get game day
+            game_date = datetime.date.today()
 
-                        # Append the results to a file
-                        with open(filename, "a") as csvfile:
-                            writer = csv.DictWriter(csvfile, fieldnames=fields)
-                            # Check if file exists. If so, only append results
-                            if f_exists:
-                                writer.writerow(result)
-                            # If file is created first time
-                            else:
-                                writer.writeheader()
-                                writer.writerow(result)
-                        break
+            # Start game
+            score = tg.start_game()
 
-                    # Print the score and map
-                    # Get user command
-                    tg.print_score()
-                    tg.print_map()
-                    command = input("Input a command: ")
+            record_result_to_leaderboard(
+                user=user,
+                date=game_date,
+                filename=filename,
+                f_exists=f_exists,
+                score=score,
+            )
 
-                    # Exit game if command is exit
-                    if command == "exit":
-                        break
-
-                    # Try executing the command
-                    str_command = "tg." + command + "()"
-                    try:
-                        exec(str_command)
-                    except Exception:
-                        print("Error. Type 'instructions' to get possible commands")
-
-            elif program_command == "instructions":
-                Format.bc_print("Getting instructions", anum)
-                tg.instructions()
-                continue
-            elif program_command == "exit":
-                Format.bc_print("Exiting the program", anum)
-                break
-            # elif program_command == "leaderboard":
-            # To be implemented
-            else:
-                Format.bc_print("Invalid command", anum)
-                continue
-        except:
-            Format.bc_print("Invalid command!", anum)
+        elif program_command == "instructions":
+            Format.bc_print("Getting instructions", anum)
+            tg.instructions()
+            continue
+        elif program_command == "exit":
+            Format.bc_print("Exiting the program", anum)
+            break
+        else:
+            Format.bc_print("Invalid command", anum)
             continue
 
 

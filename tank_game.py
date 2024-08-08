@@ -1,4 +1,6 @@
 import random
+from format import Format
+from typing import Optional
 
 
 class TankGame:
@@ -281,6 +283,37 @@ class TankGame:
         )
         print("Type 'instructions' to get all possible commands.")
         print("Type 'exit' to exit from game.")
+
+    def start_game(self) -> Optional[int]:
+        # A loop for one game
+        while True:
+            # Break from program when all shots are made
+            if self.tank_S_made == self.S_max:
+                print("")
+                Format.bc_print("", self.N)
+                Format.bc_print("Game is over!", self.N)
+                Format.bc_print(f"Your score is {self.score}", self.N)
+                Format.bc_print("", self.N)
+                print("")
+                return self.score
+
+            # Main game logic
+            # Print the score and map
+            # Get user command
+            self.print_score()
+            self.print_map()
+            command = input("Input a command: ")
+
+            # Exit game if command is exit
+            if command == "exit":
+                break
+
+            # Try executing the command
+            str_command = "self." + command + "()"
+            try:
+                exec(str_command)
+            except Exception:
+                print("Error. Type 'instructions' to get possible commands")
 
 
 def main(): ...
