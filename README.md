@@ -26,7 +26,9 @@ This program is designed to run using only the standard Python library, meaning 
 
 ## Testing
 
-During development, manual tests were performed to ensure that the application works as intended. For automated testing, **pytest** is used. Automated tests were created only for the main functionality, many additional automated tests are still needed.
+During development, manual tests were performed to ensure that the program works as intended. 
+
+For automated testing, **pytest** is used. Automated tests were created only for the main functionality, many additional automated tests are still needed.
 
 1. **To run tests**: 
     ```sh

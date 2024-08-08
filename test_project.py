@@ -1,8 +1,7 @@
 import pytest
-from unittest.mock import patch, mock_open
+from unittest.mock import patch
 from datetime import date
 import csv
-import os
 
 from project import (
     get_leader_from_leaderboard,
@@ -145,11 +144,44 @@ def test_record_result_to_leaderboard(tmp_path):
     with open(filename, "r") as f:
         reader = csv.DictReader(f)
         rows = list(reader)
-        print(rows)
+        # print(rows)
         assert len(rows) == 1
         assert rows[0]["name"] == user
         assert rows[0]["score"] == str(score)
         assert rows[0]["date"] == str(date.today())
+
+
+# print_program_menu
+def test_print_program_menu():
+    program_menu_width = 50
+    leader = ["Alice", "200", "2024-01-01"]
+
+    with patch("utils.Format.print_center") as mock_print_center:
+        print_program_menu(program_menu_width, leader)
+
+        # Check the calls to print_center
+        expected_calls = [
+            (("", program_menu_width),),
+            (("", program_menu_width),),
+            (("Welcome! This is a tank game.", program_menu_width),),
+            (("'start' To start a new game.", program_menu_width),),
+            (("'instructions' To see game instructions.", program_menu_width),),
+            (("'exit' To exit from program.", program_menu_width),),
+            (("", program_menu_width),),
+            (("", program_menu_width),),
+            (
+                (
+                    f"Current leader is '{leader[0]}'. Scored '{leader[1]}' in '{leader[2]}'!",
+                    program_menu_width,
+                ),
+            ),
+            (("", program_menu_width),),
+            (("", program_menu_width),),
+        ]
+        actual_calls = mock_print_center.call_args_list
+        assert len(actual_calls) == len(expected_calls)
+        for actual_call, expected_call in zip(actual_calls, expected_calls):
+            assert actual_call == expected_call
 
 
 if __name__ == "__main__":
