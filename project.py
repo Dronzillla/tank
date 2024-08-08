@@ -67,7 +67,7 @@ def print_program_menu(program_menu_width: int, leader: list) -> None:
     Format.print_center("", program_menu_width)
     Format.print_center("", program_menu_width)
     Format.print_center(
-        f"Current leader is '{leader[0]}'. He scored '{leader[1]}' in '{leader[2]}'!",
+        f"Current leader is '{leader[0]}'. Scored '{leader[1]}' in '{leader[2]}'!",
         program_menu_width,
     )
     Format.print_center("", program_menu_width)

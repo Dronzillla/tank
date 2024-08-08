@@ -1,11 +1,13 @@
 import pytest
 from unittest.mock import patch, mock_open
 from datetime import date
+import csv
 import os
 
 from project import (
     get_leader_from_leaderboard,
     record_result_to_leaderboard,
+    print_program_menu,
 )
 from tank_game import TankGame
 from person import Person
@@ -105,6 +107,49 @@ class TestFormat:
         Format.print_right("Hello", 20)
         captured = capsys.readouterr()
         assert captured.out == "...............Hello\n"
+
+
+# get_leader_from_leaderboard
+@pytest.fixture
+def leaderboard_file(tmp_path):
+    data = [
+        {"name": "Alice", "score": "100", "date": "2024-01-01"},
+        {"name": "Bob", "score": "150", "date": "2024-01-02"},
+        {"name": "Charlie", "score": "150", "date": "2024-01-01"},
+    ]
+    file = tmp_path / "leaderboard.csv"
+    with open(file, mode="w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["name", "score", "date"])
+        writer.writeheader()
+        writer.writerows(data)
+    yield file
+
+
+def test_get_leader_from_leaderboard(leaderboard_file):
+    with patch.object(
+        Person, "get_max_score_person_info", return_value=["Bob", "150", "2024-01-02"]
+    ) as mock_method:
+        leader = get_leader_from_leaderboard(leaderboard_file)
+        assert leader == ["Bob", "150", "2024-01-02"]
+        mock_method.assert_called_once()
+
+
+# record_result_to_leaderboard
+def test_record_result_to_leaderboard(tmp_path):
+    filename = tmp_path / "leaderboard.csv"
+    user = "Alice"
+    score = 150
+
+    # Test with a new file
+    record_result_to_leaderboard(filename, user, score)
+    with open(filename, "r") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+        print(rows)
+        assert len(rows) == 1
+        assert rows[0]["name"] == user
+        assert rows[0]["score"] == str(score)
+        assert rows[0]["date"] == str(date.today())
 
 
 if __name__ == "__main__":
