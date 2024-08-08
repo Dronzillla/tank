@@ -71,5 +71,41 @@ class TestTankGame:
         assert score == game.score
 
 
+# Test functionality related to Person class
+class TestPerson:
+    def setup_method(self):
+        # Ensure Person.all is empty before each test
+        Person.all.clear()
+
+    def test_person_creation(self):
+        person = Person("Alice", 100, date.today())
+        assert person.name == "Alice"
+        assert person.score == 100
+        assert person.date == date.today()
+
+    def test_get_maximum(self):
+        person1 = Person("Alice", 100, date.today())
+        person2 = Person("Bob", 150, date.today())
+        assert Person.get_maximum() == 150
+
+    def test_get_max_score_person_info(self):
+        person1 = Person("Alice", 100, date.today())
+        person2 = Person("Bob", 150, date.today())
+        assert Person.get_max_score_person_info() == ["Bob", 150, date.today()]
+
+
+# Test functionality related to Format class
+class TestFormat:
+    def test_print_center(self, capsys):
+        Format.print_center("Hello", 20)
+        captured = capsys.readouterr()
+        assert captured.out == ".......Hello........\n"
+
+    def test_print_right(self, capsys):
+        Format.print_right("Hello", 20)
+        captured = capsys.readouterr()
+        assert captured.out == "...............Hello\n"
+
+
 if __name__ == "__main__":
     pytest.main()
