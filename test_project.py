@@ -2,7 +2,6 @@ import pytest
 from unittest.mock import patch
 from datetime import date
 import csv
-
 from project import (
     get_leader_from_leaderboard,
     record_result_to_leaderboard,

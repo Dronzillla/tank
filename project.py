@@ -57,6 +57,12 @@ def main():
 
 
 def print_program_menu(program_menu_width: int, leader: list) -> None:
+    """Prints program menu.
+
+    Args:
+        program_menu_width (int): The width of the program menu row, measured in characters (blank space is recorded as '.').
+        leader (list): list[0] - leader name, list[1] - leader score, list[2] - date when leader score was recorded.
+    """
     # Print program menu
     Format.print_center("", program_menu_width)
     Format.print_center("", program_menu_width)
@@ -75,6 +81,15 @@ def print_program_menu(program_menu_width: int, leader: list) -> None:
 
 
 def get_leader_from_leaderboard(filename: str) -> list:
+    """Searches the leaderboard .csv file for the highest score. If multiple individuals have the same score, it returns the details of the person who achieved it first.
+
+    Args:
+        filename (str): filename for .csv file where leaderboard information is stored. Field names for .csv file are: ["name", "score", "date"].
+
+    Returns:
+        list: list[0] - leader name, list[1] - leader score, list[2] - date when leader score was recorded.
+    """
+
     # Open a leaderboard file and create Person object
     # Get leader who scored the most points
     # If more than 1 person scored maximum points the one who scored earliest is selected.
@@ -91,6 +106,14 @@ def get_leader_from_leaderboard(filename: str) -> list:
 
 
 def record_result_to_leaderboard(filename: str, user: str, score: int) -> None:
+    """_summary_
+
+    Args:
+        filename (str): _description_
+        user (str): _description_
+        score (int): _description_
+    """
+
     # Check if file for leaderboard already exists
     if os.path.exists(filename):
         f_exists = True
