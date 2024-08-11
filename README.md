@@ -1,7 +1,7 @@
 # Project "Tank"
 
 ## Video Demo
-[link]()
+[youtube-link](https://youtu.be/dgJGVP-OM5Y)
 
 ## Description
 
@@ -9,17 +9,34 @@ This is my implementation of a simple command-line interface tank game. It was d
 
 ## Dependencies
 
-This program is designed to run using only the standard Python library, meaning you don't need to install any additional packages or libraries. Simply ensure you have Python installed on your system, and you're ready to go!
+This program is designed to run using only the standard Python library, meaning you don't need to install any additional packages or libraries. However, to run tests **pytest** should be installed.
 
 ## Executing program
 
-1. **Clone github repository**:
+1. **Create folder for your project**:
+    ```sh
+    mkdir tank_project
+    cd tank_project
+    ```
+
+2. **Create and activate virtual environment**:
+    ```sh
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
+
+3. **Clone github repository**:
     ```sh
     git clone git@github.com:Dronzillla/tank.git
     cd tank/
     ```
 
-2. **Run the program**:
+4. **Install requirements**:
+    ```sh
+    pip install -r requirements.txt
+    ```
+
+5. **Run the program**:
     ```sh
     python3 project.py
     ```
